@@ -7,24 +7,26 @@ export default class DisconnectUserService {
     let { player1, player2, guests } = connections
 
       if (socketId === player1) {
-        connectionsRepository.setPlayer1(guests[0] || null)
+        player1 = connectionsRepository.setPlayer1(guests[0] || null)
         if (guests[0]) {
           io.to(guests[0]).emit('user-status', 'player1')
-          guests.shift()
-          connectionsRepository.setGuests(guests)
+          guests = connectionsRepository.setGuests(guests.slice(1))
         }
       }
+
       if (socketId === player2) {
-        connectionsRepository.setPlayer2(guests[0] || null)
+        player2 = connectionsRepository.setPlayer2(guests[0] || null)
         if (guests[0]) {
           io.to(guests[0]).emit('user-status', 'player2')
-          guests.shift()
-          connectionsRepository.setGuests(guests)
+          guests = connectionsRepository.setGuests(guests.slice(1))
         }
-      } else {
-        guests = guests.filter(guest => guest !== socketId)
-        connectionsRepository.setGuests(guests)
       }
+
+      if (socketId !== player1 && socketId !== player2) {
+        guests = connectionsRepository.setGuests(guests.filter(guest => guest !== socketId))
+      }
+
       guests.forEach((guest, index) => io.to(guest).emit('user-status', `guest${index + 1}`))
+      io.emit('connected-users', guests.length + Number(!!player1) + Number(!!player2))
   }
 }

@@ -19,15 +19,18 @@ export default class ConnectionsRepository {
     return this.connections
   }
 
-  public setPlayer1(player1: string | null): void {
+  public setPlayer1(player1: string | null): string | null {
     this.connections.player1 = player1
+    return this.connections.player1
   }
 
-  public setPlayer2(player2: string | null): void {
+  public setPlayer2(player2: string | null): string | null {
     this.connections.player2 = player2
+    return this.connections.player2
   }
 
-  public setGuests(guests: string[]): void {
+  public setGuests(guests: string[]): string[] {
     this.connections.guests = guests
+    return this.connections.guests
   }
 }

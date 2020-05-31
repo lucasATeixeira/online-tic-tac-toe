@@ -11,17 +11,19 @@ function changeUserStatus(status) {
   }
 }
 
-function awaitOtherUser() {
+function changeConnectedUsers(connectedUsers) {
+  console.log(connectedUsers)
   const h3 = document.querySelector('h3')
-  h3.innerHTML = 'Wait for another player to play'
-}
 
-function playing() {
-  const h3 = document.querySelector('h3')
-  h3.innerHTML = 'You are now playing'
-}
+  if (connectedUsers > 2) {
+    h3.innerHTML = `You and ${connectedUsers - 1} more players are online`
+  } else if (connectedUsers === 2) {
+    h3.innerHTML = `You and ${connectedUsers - 1} more player are online`
+  } else {
+    h3.innerHTML = `Only you are connected, wait for another player`
+  }
 
+}
 
 socket.on('user-status', changeUserStatus)
-socket.on('await-user', awaitOtherUser)
-socket.on('playing', playing)
+socket.on('connected-users', changeConnectedUsers)
