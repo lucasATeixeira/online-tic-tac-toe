@@ -25,6 +25,9 @@ body, html, #app {
 }
 
 .cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: blue;
   cursor: pointer;
   transition: 500ms ease;

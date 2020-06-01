@@ -12,9 +12,9 @@ export default class GameStateRepository {
       firstMove: null,
       lastMove: null,
       board: [
+        ['', 'player1', ''],
         ['', '', ''],
-        ['', '', ''],
-        ['', '', '']
+        ['player2', '', '']
       ]
     }
   }

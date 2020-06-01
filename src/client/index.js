@@ -1,4 +1,11 @@
 const socket = io()
+const state = {
+  board: [
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', '']
+  ]
+}
 
 function changeUserStatus(status) {
   const h2 = document.querySelector('h2')
@@ -12,7 +19,6 @@ function changeUserStatus(status) {
 }
 
 function changeConnectedUsers(connectedUsers) {
-  console.log(connectedUsers)
   const h3 = document.querySelector('h3')
 
   if (connectedUsers > 2) {
@@ -25,5 +31,23 @@ function changeConnectedUsers(connectedUsers) {
 
 }
 
+function boardUpdate(board) {
+  state.board = JSON.parse(board)
+
+  for (let i = 0; i < state.board.length; i += 1) {
+    for (let j = 0; j < state.board[i].length; j += 1) {
+      const cell = `#cell${i * 3 + j}`
+      const div = document.querySelector(cell)
+      if (state.board[i][j] === 'player1') {
+        div.innerHTML = 'O'
+      }
+      if (state.board[i][j] === 'player2') {
+        div.innerHTML = 'X'
+      }
+    }
+  }
+}
+
 socket.on('user-status', changeUserStatus)
 socket.on('connected-users', changeConnectedUsers)
+socket.on('board', boardUpdate)

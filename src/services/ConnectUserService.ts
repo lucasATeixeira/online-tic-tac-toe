@@ -3,7 +3,7 @@ import { Server } from 'socket.io'
 
 
 export default class ConnectUserService {
-  execute(socketId: string, connectionsRepository: ConnectionsRepository, io: Server) {
+  execute(socketId: string, io: Server, connectionsRepository: ConnectionsRepository) {
     const connections = connectionsRepository.getConnections()
     let { player1, player2, guests } = connections
 
