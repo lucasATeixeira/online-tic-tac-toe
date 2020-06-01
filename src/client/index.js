@@ -9,6 +9,55 @@ const state = {
   ]
 }
 
+const cells = document.getElementsByClassName('cell')
+
+const linesAndColumns = {
+  cell0: {
+    line: 0,
+    column: 0
+  },
+  cell1: {
+    line: 0,
+    column: 1
+  },
+  cell2: {
+    line: 0,
+    column: 2
+  },
+  cell3: {
+    line: 1,
+    column: 0
+  },
+  cell4: {
+    line: 1,
+    column: 1
+  },
+  cell5: {
+    line: 1,
+    column: 2
+  },
+  cell6: {
+    line: 2,
+    column: 0
+  },
+  cell7: {
+    line: 2,
+    column: 1
+  },
+  cell8: {
+    line: 2,
+    column: 2
+  },
+}
+
+for (let i = 0; i < cells.length; i += 1) {
+  let cell = cells[i]
+  cell.addEventListener('click', () => {
+    if (state.whoAmI !== state.nextMove) return
+    socket.emit('move', linesAndColumns[cell.id])
+  })
+}
+
 function changeUserStatus(status) {
   state.whoAmI = status
 

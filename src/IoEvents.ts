@@ -14,7 +14,6 @@ const gameStateRepository = new GameStateRepository()
 interface IMove {
   line: number,
   column: number,
-  player: string
 }
 
 export default class IoEvents {
@@ -26,7 +25,7 @@ export default class IoEvents {
     this.socket = socket
     this.connect()
 
-    this.socket.on('move', ({ line, column, player }) => this.move({ line, column, player }))
+    this.socket.on('move', ({ line, column }) => this.move({ line, column }))
     this.socket.on('disconnect', () => this.disconnect())
   }
 
@@ -38,9 +37,9 @@ export default class IoEvents {
     sendBoard.execute(this.io, gameStateRepository, this.socket.id)
   }
 
-  private move({ line, column, player }: IMove): void {
+  private move({ line, column }: IMove): void {
     const move = new MoveService()
-    move.execute(this.socket.id, this.io, { line, column, player }, gameStateRepository)
+    move.execute(this.socket.id, this.io, { line, column }, gameStateRepository, connectionsRepository)
   }
 
   private disconnect(): void {

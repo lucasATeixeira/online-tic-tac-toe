@@ -1,5 +1,5 @@
 interface IGameState {
-  nextMove: string | null,
+  nextMove: 'player1' | 'player2' | null,
   board: string[][]
 }
 
@@ -21,7 +21,7 @@ export default class GameStateRepository {
     return this.gameState
   }
 
-  public setNextMove(player: string): string {
+  public setNextMove(player: 'player1' | 'player2'): 'player1' | 'player2' {
     this.gameState.nextMove = player
     return this.gameState.nextMove
   }
