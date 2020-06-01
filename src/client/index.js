@@ -1,5 +1,7 @@
 const socket = io()
 const state = {
+  whoAmI: '',
+  nextMove: '',
   board: [
     ['', '', ''],
     ['', '', ''],
@@ -8,13 +10,15 @@ const state = {
 }
 
 function changeUserStatus(status) {
+  state.whoAmI = status
+
   const h2 = document.querySelector('h2')
-  if (status === 'player1') {
+  if (state.whoAmI === 'player1') {
     h2.innerHTML = 'You are O'
-  } else if (status === 'player2') {
+  } else if (state.whoAmI === 'player2') {
     h2.innerHTML = 'You are X'
   } else {
-    h2.innerHTML = `You are ${status}`
+    h2.innerHTML = `You are ${state.whoAmI}`
   }
 }
 
@@ -31,8 +35,22 @@ function changeConnectedUsers(connectedUsers) {
 
 }
 
-function boardUpdate(board) {
-  state.board = JSON.parse(board)
+function boardUpdate(data) {
+  const { board, nextMove } = JSON.parse(data)
+  state.board = board
+  state.nextMove = nextMove
+
+  const h4 = document.querySelector('h4')
+
+  if (state.whoAmI === state.nextMove) {
+    h4.innerHTML = 'Its your turn'
+  } else if (state.nextMove === 'player1') {
+    h4.innerHTML = "It's O turn"
+  } else if (state.nextMove === 'player2') {
+    h4.innerHTML = "It's X turn"
+  } else {
+    h4.innerHTML = ''
+  }
 
   for (let i = 0; i < state.board.length; i += 1) {
     for (let j = 0; j < state.board[i].length; j += 1) {

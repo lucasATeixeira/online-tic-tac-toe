@@ -1,6 +1,5 @@
 interface IGameState {
-  firstMove: string | null,
-  lastMove: string | null,
+  nextMove: string | null,
   board: string[][]
 }
 
@@ -9,12 +8,11 @@ export default class GameStateRepository {
 
   constructor() {
     this.gameState = {
-      firstMove: null,
-      lastMove: null,
+      nextMove: null,
       board: [
-        ['', 'player1', ''],
         ['', '', ''],
-        ['player2', '', '']
+        ['', '', ''],
+        ['', '', '']
       ]
     }
   }
@@ -23,14 +21,9 @@ export default class GameStateRepository {
     return this.gameState
   }
 
-  public setFirstMove(player: string): string {
-    this.gameState.firstMove = player
-    return this.gameState.firstMove
-  }
-
-  public setLastMove(player: string): string {
-    this.gameState.lastMove = player
-    return this.gameState.lastMove
+  public setNextMove(player: string): string {
+    this.gameState.nextMove = player
+    return this.gameState.nextMove
   }
 
   public setBoard(board: string[][]): string[][] {

@@ -6,6 +6,7 @@ import MoveService from './services/MoveService'
 import SendBoardService from './services/SendBoarService'
 import ConnectUserService from './services/ConnectUserService'
 import DisconnectUserService from './services/DisconnectUserService'
+import RestartGameService from './services/RestartGameService'
 
 const connectionsRepository = new ConnectionsRepository()
 const gameStateRepository = new GameStateRepository()
@@ -32,7 +33,8 @@ export default class IoEvents {
   private connect(): void {
     const connectUser = new ConnectUserService()
     const sendBoard = new SendBoardService()
-    connectUser.execute(this.socket.id, this.io, connectionsRepository)
+    const restartGame = new RestartGameService()
+    connectUser.execute(this.socket.id, this.io, connectionsRepository, gameStateRepository, restartGame)
     sendBoard.execute(this.io, gameStateRepository, this.socket.id)
   }
 
