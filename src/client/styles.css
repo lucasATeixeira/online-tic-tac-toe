@@ -5,6 +5,10 @@ body, html, #app {
   overflow: hidden;
 }
 
+* {
+  font-family: sans-serif;
+}
+
 #app {
   display: flex;
   flex-direction: column;
@@ -15,6 +19,7 @@ body, html, #app {
 #board {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   gap: 15px;
   padding: 15px;
   width: 300px;
@@ -33,6 +38,10 @@ body, html, #app {
   transition: 500ms ease;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 3px 6px 0px;
+
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 40px;
 }
 
 .cell:hover {

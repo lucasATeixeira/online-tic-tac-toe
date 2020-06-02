@@ -38,8 +38,9 @@ export default class IoEvents {
   }
 
   private move({ line, column }: IMove): void {
+    const restartGame = new RestartGameService()
     const move = new MoveService()
-    move.execute(this.socket.id, this.io, { line, column }, gameStateRepository, connectionsRepository)
+    move.execute(this.socket.id, this.io, { line, column }, restartGame, gameStateRepository, connectionsRepository)
   }
 
   private disconnect(): void {

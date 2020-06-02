@@ -107,14 +107,29 @@ function boardUpdate(data) {
       const div = document.querySelector(cell)
       if (state.board[i][j] === 'player1') {
         div.innerHTML = 'O'
+        continue
       }
       if (state.board[i][j] === 'player2') {
         div.innerHTML = 'X'
+        continue
       }
+      div.innerHTML = ''
     }
   }
+}
+
+function endGame(result) {
+  const h4 = document.querySelector('h4')
+
+  if (result === 'full-board') {
+    h4.innerHTML = 'There were no winner, wait for game restart'
+    return
+  }
+
+  h4.innerHTML = `${result === 'player1' ? 'O' : 'X'} won, wait for game restart`
 }
 
 socket.on('user-status', changeUserStatus)
 socket.on('connected-users', changeConnectedUsers)
 socket.on('board', boardUpdate)
+socket.on('end-game', endGame)
