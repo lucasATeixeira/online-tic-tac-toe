@@ -9,53 +9,54 @@ const state = {
   ]
 }
 
-const cells = document.getElementsByClassName('cell')
+function handleCellClick() {
+  const cells = document.getElementsByClassName('cell')
+  const linesAndColumns = {
+    cell0: {
+      line: 0,
+      column: 0
+    },
+    cell1: {
+      line: 0,
+      column: 1
+    },
+    cell2: {
+      line: 0,
+      column: 2
+    },
+    cell3: {
+      line: 1,
+      column: 0
+    },
+    cell4: {
+      line: 1,
+      column: 1
+    },
+    cell5: {
+      line: 1,
+      column: 2
+    },
+    cell6: {
+      line: 2,
+      column: 0
+    },
+    cell7: {
+      line: 2,
+      column: 1
+    },
+    cell8: {
+      line: 2,
+      column: 2
+    },
+  }
 
-const linesAndColumns = {
-  cell0: {
-    line: 0,
-    column: 0
-  },
-  cell1: {
-    line: 0,
-    column: 1
-  },
-  cell2: {
-    line: 0,
-    column: 2
-  },
-  cell3: {
-    line: 1,
-    column: 0
-  },
-  cell4: {
-    line: 1,
-    column: 1
-  },
-  cell5: {
-    line: 1,
-    column: 2
-  },
-  cell6: {
-    line: 2,
-    column: 0
-  },
-  cell7: {
-    line: 2,
-    column: 1
-  },
-  cell8: {
-    line: 2,
-    column: 2
-  },
-}
-
-for (let i = 0; i < cells.length; i += 1) {
-  let cell = cells[i]
-  cell.addEventListener('click', () => {
-    if (state.whoAmI !== state.nextMove) return
-    socket.emit('move', linesAndColumns[cell.id])
-  })
+  for (let i = 0; i < cells.length; i += 1) {
+    let cell = cells[i]
+    cell.addEventListener('click', () => {
+      if (state.whoAmI !== state.nextMove) return
+      socket.emit('move', linesAndColumns[cell.id])
+    })
+  }
 }
 
 function changeUserStatus(status) {
@@ -84,7 +85,7 @@ function changeConnectedUsers(connectedUsers) {
 
 }
 
-function boardUpdate(data) {
+function updateBoard(data) {
   const { board, nextMove } = JSON.parse(data)
   state.board = board
   state.nextMove = nextMove
@@ -121,7 +122,7 @@ function boardUpdate(data) {
 function endGame(result) {
   const h4 = document.querySelector('h4')
 
-  if (result === 'full-board') {
+  if (result === 'fullyFilledBoard') {
     h4.innerHTML = 'There were no winner, wait for game restart'
     return
   }
@@ -129,7 +130,8 @@ function endGame(result) {
   h4.innerHTML = `${result === 'player1' ? 'O' : 'X'} won, wait for game restart`
 }
 
+handleCellClick()
 socket.on('user-status', changeUserStatus)
 socket.on('connected-users', changeConnectedUsers)
-socket.on('board', boardUpdate)
+socket.on('board', updateBoard)
 socket.on('end-game', endGame)

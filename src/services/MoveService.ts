@@ -9,7 +9,7 @@ interface IMove {
   column: number,
 }
 
-function verifyWinner(response: string, current: string): string {
+function lineStatus(response: string, current: string): string {
   if (current === '' || response === '' || response === '0') return '0'
   if (current === response) return current
   return '1'
@@ -37,20 +37,20 @@ export default class MoveService {
         board
       }))
 
-      const firstLine = board.slice(0, 1)[0].reduce(verifyWinner)
-      const secondLine = board.slice(1, 2)[0].reduce(verifyWinner)
-      const thirdLine = board.slice(2)[0].reduce(verifyWinner)
-      const firstColumn = board.map(line => line[0]).reduce(verifyWinner)
-      const secondColumn = board.map(line => line[1]).reduce(verifyWinner)
-      const thirdColumn = board.map(line => line[2]).reduce(verifyWinner)
-      const firstDiagonal = [ board[0][0], board[1][1], board[2][2] ].reduce(verifyWinner)
-      const secondDiagonal = [ board[0][2], board[1][1], board[2][0] ].reduce(verifyWinner)
+      const firstLine = board.slice(0, 1)[0].reduce(lineStatus)
+      const secondLine = board.slice(1, 2)[0].reduce(lineStatus)
+      const thirdLine = board.slice(2)[0].reduce(lineStatus)
+      const firstColumn = board.map(line => line[0]).reduce(lineStatus)
+      const secondColumn = board.map(line => line[1]).reduce(lineStatus)
+      const thirdColumn = board.map(line => line[2]).reduce(lineStatus)
+      const firstDiagonal = [ board[0][0], board[1][1], board[2][2] ].reduce(lineStatus)
+      const secondDiagonal = [ board[0][2], board[1][1], board[2][0] ].reduce(lineStatus)
 
-      let fullBoard = true
       const boardStatus = [firstLine, secondLine, thirdLine, firstColumn, secondColumn, thirdColumn, firstDiagonal, secondDiagonal]
+      let fullyFilledBoard = true
 
       for (let b of boardStatus) {
-        if (b === '0') fullBoard = false
+        if (b === '0') fullyFilledBoard = false
         if (b === 'player1' || b === 'player2') {
           io.emit('end-game', b === 'player1' ? 'player1' : 'player2')
           setTimeout(() => restartGame.execute(io, gameStateRepository), 3000)
@@ -58,8 +58,8 @@ export default class MoveService {
         }
       }
 
-      if (fullBoard) {
-        io.emit('end-game', 'full-board')
+      if (fullyFilledBoard) {
+        io.emit('end-game', 'fullyFilledBoard')
         setTimeout(() => restartGame.execute(io, gameStateRepository), 3000)
         return
       }
