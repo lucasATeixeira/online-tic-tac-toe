@@ -108,15 +108,16 @@ function updateBoard(data) {
       const div = document.querySelector(cell)
       if (state.board[i][j] === 'player1') {
         div.innerHTML = 'O'
-        div.classList.add('O')
+        div.className = 'cell O'
         continue
       }
       if (state.board[i][j] === 'player2') {
         div.innerHTML = 'X'
-        div.classList.add('X')
+        div.className = 'cell X'
         continue
       }
       div.innerHTML = ''
+      div.className = 'cell'
     }
   }
 }
