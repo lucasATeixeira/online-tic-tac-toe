@@ -2,8 +2,10 @@
 
 Its an online Tic Tac Toe game using knowledge learned in node using typescript, SOLID principles and [socket.io](https://github.com/socketio/socket.io)
 
-Follow the same rules of tic tac toe where only two players play the game, if more people enter the session they will be placed on the waiting list as guest, in case any of the two main players (X or O) leave the session the first from the guest list will take his place.
+Follow the same rules of tic tac toe where only two players play the game, if more people enter the session they will be placed on the waiting list as guest without being able to perform actions, in case any of the two main players (X or O) leave the session the first from the guest list will take his place.
 
+
+![visuals](src/assets/visuals.gif)
 
 ## Installation
 
